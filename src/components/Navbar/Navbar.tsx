@@ -56,7 +56,7 @@ const Navbar = ({
     };
 
     const getFileName = (): string => {
-        let technicalName = state.qMetadata.name || 'skjema';
+        let technicalName = state.qMetadata.name || 'formulär';
         technicalName = technicalName.length > 40 ? technicalName.substring(0, 40) + '...' : technicalName;
         const version = state.qMetadata.version ? `-v${state.qMetadata.version}` : '';
         if (state.qAdditionalLanguages && Object.values(state.qAdditionalLanguages).length < 1) {

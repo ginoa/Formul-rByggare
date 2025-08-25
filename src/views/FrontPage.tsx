@@ -60,7 +60,7 @@ const FrontPage = (): JSX.Element => {
 
         // resets some metadata properties
         StandardQuestionnaireParsed.title = '';
-        StandardQuestionnaireParsed.name = '';
+        StandardQuestionnaireParsed.name = 'NyFormulär';
         StandardQuestionnaireParsed.description = '';
         const NewUUID = createUUID();
         StandardQuestionnaireParsed.id = NewUUID;
