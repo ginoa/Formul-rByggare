@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 import FormBuilder from './FormBuilder';
 import Btn from '../components/Btn/Btn';
 import './FrontPage.css';
+import createUUID from '../helpers/CreateUUID';
+import StandardQuestionnaire from '../standardfrågor.json';
 
 const FrontPage = (): JSX.Element => {
     const { t } = useTranslation();
@@ -48,6 +50,30 @@ const FrontPage = (): JSX.Element => {
         if (event.target.files && event.target.files[0]) reader.readAsText(event.target.files[0]);
     };
     const suggestRestore: boolean = stateFromStorage?.qItems ? Object.keys(stateFromStorage.qItems).length > 0 : false;
+
+    // method for initialising a standard form
+    const initializeStandardQuestionnaire = () => {
+        setIsLoading(true);
+
+        // reads standard questionnaire from file
+        const StandardQuestionnaireParsed = JSON.parse(JSON.stringify(StandardQuestionnaire));
+
+        // resets some metadata properties
+        StandardQuestionnaireParsed.title = '';
+        StandardQuestionnaireParsed.name = '';
+        StandardQuestionnaireParsed.description = '';
+        const NewUUID = createUUID();
+        StandardQuestionnaireParsed.id = NewUUID;
+        StandardQuestionnaireParsed.url = "Questionnaire/" + NewUUID;
+
+        // maps questionnaire to Tree
+        const importedState = mapToTreeState(StandardQuestionnaireParsed);
+        dispatch(resetQuestionnaireAction(importedState));
+
+        // ends operation
+        setIsLoading(false);
+        setIsFormBuilderShown(true);
+    }
 
     const onDenyRestoreModal = (): void => {
         dispatch(resetQuestionnaireAction());
@@ -121,7 +147,15 @@ const FrontPage = (): JSX.Element => {
                             onClick={() => {
                                 setIsFormBuilderShown(true);
                             }}
-                            title={t('New questionnaire')}
+                            title={t('New empty questionnaire')}
+                            variant="primary"
+                        />
+                        {` `}
+                        <Btn
+                            onClick={() => {
+                                initializeStandardQuestionnaire();
+                            }}
+                            title={t('New standard questionnaire')}
                             variant="primary"
                         />
                         {` `}
