@@ -34,6 +34,6 @@ stages:
       - template: Templates/Docker/build-and-push-containers-job.yml@templates
         parameters:
             containers:
-                - containerRepository: helsenorge/skjemabyggeren
+                - containerRepository: EHM/Formulärbyggaren
                   dockerFile: Dockerfile
                   tag: ${{ variables.build_version }}

@@ -29,23 +29,23 @@ const ValidationAnswerTypeString = ({ item }: Props): JSX.Element => {
         },
         {
             display: t('National identity number'),
-            code: '^((((0[1-9]|[12]\\d|3[01])([04][13578]|[15][02]))|((0[1-9]|[12]\\d|30)([04][469]|[15]1))|((0[1-9]|[12]\\d)([04]2)))|((([0-7][1-9]|[12]\\d|3[01])(0[13578]|1[02]))|(([0-7][1-9]|[12]\\d|30)(0[469]|11))|(([0-7][1-9]|[12]\\d)(02))))\\d{7}$',
+            code: '^(19|20)?\\d{2}(0[1-9]|1[0-2])-[0-9]{4}$',
         },
         {
             display: t('Telefonnummer'),
             code: '^((\\+|00)(\\d{1,3}))?\\d{5,12}$',
         },
         {
-            display: t('Only norwegian characters'),
-            code: '^[æøåÆØÅa-zA-Z ]*$',
+            display: t('Only swedish characters'),
+            code: '^[åäöÅÄÖa-zA-Z ]*$',
         },
         {
-            display: t('Only norwegian characters + hyphen and space (used for names)'),
-            code: '^[æøåÆØÅa-zA-Z\\- ]*$',
+            display: t('Only swedish characters + hyphen and space (used for names)'),
+            code: '^[åäöÅÄÖa-zA-Z\\- ]*$',
         },
         {
-            display: t('Only norwegian characters with line breaks'),
-            code: '^(?:[æøåÆØÅa-zA-Z0-9,.!?@()+\\-\\/*]|[ \r\n\t])*$',
+            display: t('Only swedish characters with line breaks'),
+            code: '^(?:[åäöÅÄÖa-zA-Z0-9,.!?@()+\\-\\/*]|[ \r\n\t])*$',
         },
         { display: t('Zip code'), code: '^(000[1-9]|0[1-9][0-9][0-9]|[1-9][0-9][0-9][0-8])$' },
     ];
@@ -142,7 +142,7 @@ const ValidationAnswerTypeString = ({ item }: Props): JSX.Element => {
                         }}
                     />
                 </FormField>
-                <FormField label={t('Maksimum antall tegn')}>
+                <FormField label={t('Maximum characters')}>
                     <input
                         defaultValue={item.maxLength || ''}
                         type="number"

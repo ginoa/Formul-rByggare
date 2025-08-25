@@ -194,6 +194,17 @@ const Navbar = ({
                                 }
                             />
                         )}
+                        {i18n.language !== 'sv-SE' && (
+                            <Btn
+                                title={t('Change to Swedish')}
+                                onClick={() =>
+                                    callbackAndHide(() => {
+                                        i18n.changeLanguage('sv-SE');
+                                        localStorage.setItem('editor_language', 'sv-SE');
+                                    })
+                                }
+                            />
+                        )}
                     </div>
                 )}
             </header>
