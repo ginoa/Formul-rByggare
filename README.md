@@ -1,20 +1,8 @@
-# Structor - FHIR form builder
+# About this repository
+This repository contains code for creating a React-based app for generating Questionnaire forms.
+The code is based on [Structor form builder](https://github.com/helsenorge/structor-archived.git), an open source tool developed by HelseNorge for building FHIR Questionnaire forms. 
 
-Structor form builder is an open source tool for building FHIR Questionnaire forms. A live demo could be found at [formdesigner.helsenorgelab.no/](https://formdesigner.helsenorgelab.no/).
-
-## FHIR Questionnaires
-
-The FHIR specification defines [Questionnaires](https://www.hl7.org/fhir/questionnaire.html): 
-
-> A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.
-
-## Quickstart
-
-Either open the demo at [formdesigner.helsenorgelab.no/](https://formdesigner.helsenorgelab.no/) or clone this repo, install Typescript, run `npm install` and run `npm start`.
-
-## Netlify functions
-
-Run `npm install -g netlify-cli` before running npm run functions :)
-
-## Docker
-See [Dockerfile](Dockerfile) for info.
+# Navigation
+The app is made up of two main pages (views):
+- FrontPage: The landing page. From here the user can create a new questionnaire, open a saved one (this functionality is not implemented yet!), or upload one from the local machine.
+- FormBuilder: The page where a questionnaire can be modified.
