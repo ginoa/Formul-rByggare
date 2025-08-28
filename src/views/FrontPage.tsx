@@ -10,7 +10,7 @@ import FormBuilder from './FormBuilder';
 import Btn from '../components/Btn/Btn';
 import './FrontPage.css';
 import createUUID from '../helpers/CreateUUID';
-import StandardQuestionnaire from '../standardfrågor.json';
+import StandardQuestionnaire from '../store/standardfrågor.json';
 
 const FrontPage = (): JSX.Element => {
     const { t } = useTranslation();
