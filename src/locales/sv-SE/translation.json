@@ -14,7 +14,7 @@
     "Relative redirect url": "Mål",
     "For example /infopage": "Infosida",
     "Parameter name must be 1-255 characters and can only contain numbers, _ and normal and capital letters a-z": "Parameternamnet måste vara mellan 1-255 tecken och kan endast innehålla siffror, _ och små eller stora bokstäver mellan a-z",
-    "After completing the form": "Etter blanketten är ifyllt",
+    "After completing the form": "Efter blanketten är ifyllt",
     "Choose what should happen after the user has completed the form": "Välj vad ska hända efter att användaren har fyllt i blanketten",
     "Send as parameter": "Sicka som parameter",
     "Parameter name": "Parameternamn",
