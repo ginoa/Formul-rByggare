@@ -18,6 +18,7 @@ import IconBtn from '../IconBtn/IconBtn';
 import Select from '../Select/Select';
 
 import { QuestionnaireResponse } from '@helsenorge/refero/types/fhir';
+import InputField from '../InputField/inputField';
 
 type Props = {
     showFormFiller: () => void;
@@ -34,6 +35,8 @@ const FormFillerPreview = ({ showFormFiller, language, state }: Props): JSX.Elem
     );
     const [selectedGender, setSelectedGender] = useState<string>('');
     const [selectedAge, setSelectedAge] = useState<string>('');
+    const [selectedPatient, setSelectedPatient] = useState<string>('');
+    const [selectedDoctor, setSelectedDoctor] = useState<string>('');
     const questionnaireForPreview = JSON.parse(
         JSON.stringify(
             generateQuestionnaireForPreview(state, selectedLanguage, selectedGender, selectedAge),
@@ -46,7 +49,7 @@ const FormFillerPreview = ({ showFormFiller, language, state }: Props): JSX.Elem
 
     useEffect(() => {
         setReferoKey(Math.random().toString());
-    }, [selectedLanguage, selectedGender, selectedAge]);
+    }, [selectedLanguage, selectedGender, selectedAge, selectedPatient, selectedDoctor]);
 
     return (
         <Provider store={store}>
@@ -56,58 +59,9 @@ const FormFillerPreview = ({ showFormFiller, language, state }: Props): JSX.Elem
                         <IconBtn type="x" title={t('Close')} onClick={showFormFiller} />
                         <h1>{t('Preview')}</h1>
                         <div className="pull-right">
-                            <Select
-                                value={selectedGender}
-                                options={[
-                                    {
-                                        code: '',
-                                        display: t('Gender'),
-                                    },
-                                    {
-                                        code: 'Kvinne',
-                                        display: t('Female'),
-                                    },
-                                    {
-                                        code: 'Mann',
-                                        display: t('Male'),
-                                    },
-                                    {
-                                        code: 'Ukjent',
-                                        display: t('Unknown'),
-                                    },
-                                ]}
-                                onChange={(e) => {
-                                    setSelectedGender(e.target.value);
-                                }}
-                                compact={true}
-                            />
-                            <Select
-                                value={selectedAge}
-                                options={[
-                                    {
-                                        code: '',
-                                        display: t('Age'),
-                                    },
-                                    ...Array.from(Array(120), (_x, index) => {
-                                        return {
-                                            code: index.toString(),
-                                            display: index.toString(),
-                                        };
-                                    }),
-                                ]}
-                                onChange={(e) => {
-                                    setSelectedAge(e.target.value);
-                                }}
-                                compact={true}
-                            />
-                            <Select
-                                value={selectedLanguage}
-                                options={languages}
-                                onChange={(e) => {
-                                    setSelectedLanguage(e.target.value);
-                                }}
-                                compact={true}
-                            />
+                            <InputField defaultValue={t('Kalle Karlsson')}/>
+
+                            <InputField defaultValue={t('Läkare Olsson')}/>
                         </div>
                     </div>
 
