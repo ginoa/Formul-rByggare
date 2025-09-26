@@ -1,4 +1,4 @@
-import { ContactDetail, Extension, Meta, UsageContext } from './fhir';
+import { ContactDetail, Extension, Meta, Period, UsageContext } from './fhir';
 
 export enum IQuestionnaireMetadataType {
     title = 'title',
@@ -6,17 +6,21 @@ export enum IQuestionnaireMetadataType {
     name = 'name',
     id = 'id',
     status = 'status',
-    date = 'date',
+    approvalDate = 'approvalDate',
     publisher = 'publisher',
     contact = 'contact',
     language = 'language',
     url = 'url',
-    purpose = 'purpose',
+    useContextCategory = 'useContext[category]',
+    useContextLegislation = 'useContext[legislation]',
+    useContextPurpose = 'useContext[purpose]',
     copyright = 'copyright',
     meta = 'meta',
     extension = 'extension',
     version = 'version',
     useContext = 'useContext',
+    effectivePeriodStart = 'effectivePeriod.start',
+    effectivePeriodEnd = 'effectivePeriod.end',
 }
 
 export interface IQuestionnaireMetadata {
@@ -38,11 +42,15 @@ export interface IQuestionnaireMetadata {
     extension?: Array<Extension>;
     purpose?: string;
     copyright?: string;
+    useContextCategory?: Array<UsageContext>;
+    useContextLegislation?: Array<UsageContext>;
+    effectivePeriod?: Period;
 }
 
 export enum IQuestionnaireStatus {
     active = 'active',
     draft = 'draft',
     retired = 'retired',
-    unknown = 'unknown',
+    //unknown = 'unknown',
 }
+

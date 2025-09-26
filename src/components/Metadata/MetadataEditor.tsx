@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatISO, parseISO } from 'date-fns';
-import { isValidId, isValidTechnicalName, questionnaireStatusOptions } from '../../helpers/MetadataHelper';
+import { categories, isValidId, isValidTechnicalName, legislation, questionnaireStatusOptions } from '../../helpers/MetadataHelper';
 import Accordion from '../Accordion/Accordion';
 import DatePicker from '../DatePicker/DatePicker';
 import FormField from '../FormField/FormField';
@@ -22,7 +22,7 @@ const MetadataEditor = (): JSX.Element => {
 
     const updateMeta = (
         propName: IQuestionnaireMetadataType,
-        value: string | Meta | Extension[] | ContactDetail[] | UsageContext[],
+        value: string | Meta | Extension[] | ContactDetail[] | Date | UsageContext[],
     ) => {
         dispatch(updateQuestionnaireMetadataAction(propName, value));
     };
@@ -95,16 +95,47 @@ const MetadataEditor = (): JSX.Element => {
                     />
                 </FormField>
 
-                <FormField label={t('Date')}>
+                <FormField label={t('Publishing date')}>
                     <DatePicker
                         type="date"
                         selected={qMetadata.date ? parseISO(qMetadata.date) : undefined}
                         disabled={false}
                         nowButton={true}
                         callback={(date: Date) => {
-                            updateMeta(IQuestionnaireMetadataType.date, formatISO(date));
+                            updateMeta(IQuestionnaireMetadataType.approvalDate, formatISO(date));
                         }}
                     />
+                </FormField>
+
+                <FormField label={t('Valid during')}>
+                    <div className="horizontal equal">
+                                
+                        <FormField label={t('From (date)')}>
+                            
+                            <DatePicker
+                                type="date"
+                                selected={qMetadata.effectivePeriod && qMetadata.effectivePeriod.start ? parseISO(qMetadata.effectivePeriod?.start) : undefined}
+                                disabled={false}
+                                nowButton={true}
+                                callback={(date: Date) => {
+                                    updateMeta(IQuestionnaireMetadataType.effectivePeriodStart, formatISO(date));
+                                }}
+                            />
+                        </FormField>
+
+                        <FormField label={t('Until (date)')}>
+
+                            <DatePicker
+                                type="date"
+                                selected={qMetadata.effectivePeriod && qMetadata.effectivePeriod.end ? parseISO(qMetadata.effectivePeriod?.end) : undefined}
+                                disabled={false}
+                                nowButton={true}
+                                callback={(date: Date) => {
+                                    updateMeta(IQuestionnaireMetadataType.effectivePeriodEnd, formatISO(date));
+                                }}
+                            />
+                            </FormField>
+                    </div>
                 </FormField>
 
                 <FormField label={t('Status')}>
@@ -140,9 +171,40 @@ const MetadataEditor = (): JSX.Element => {
                 <FormField label={t('Purpose')}>
                     <MarkdownEditor
                         data={qMetadata.purpose || ''}
-                        onBlur={(purpose: string) => updateMeta(IQuestionnaireMetadataType.purpose, purpose)}
+                        onBlur={(purpose: string) => updateMeta(IQuestionnaireMetadataType.useContextPurpose, purpose)}
                     />
                 </FormField>
+                
+                <FormField label={t('Category')}>
+                    <RadioBtn
+                        onChange={(newValue: string) => {
+                            if (newValue) {
+                                updateMeta(IQuestionnaireMetadataType.useContextCategory, newValue);
+                            }
+                        }}
+                        checked={
+                            qMetadata.useContextCategory && qMetadata.useContextCategory.length > 0 && qMetadata.useContextCategory[0].valueCodeableConcept && qMetadata.useContextCategory[0].valueCodeableConcept.coding ? qMetadata.useContextCategory[0].valueCodeableConcept.coding[0].code : 'care'
+                        }
+                        options={categories}
+                        name={'categories-radio'}
+                    />
+                </FormField>
+
+                <FormField label={t('Legislation')}>
+                    <RadioBtn
+                        onChange={(newValue: string) => {
+                            if (newValue) {
+                                updateMeta(IQuestionnaireMetadataType.useContextLegislation, newValue);
+                            }
+                        }}
+                        checked={
+                            qMetadata.useContextLegislation && qMetadata.useContextLegislation.length > 0 && qMetadata.useContextLegislation[0].valueCodeableConcept && qMetadata.useContextLegislation[0].valueCodeableConcept.coding ? qMetadata.useContextLegislation[0].valueCodeableConcept.coding[0].code : 'LOL'
+                        }
+                        options={legislation}
+                        name={'legislation-radio'}
+                    />
+                </FormField>
+
                 <FormField label={t('Copyright')}>
                     <MarkdownEditor
                         data={qMetadata.copyright || ''}

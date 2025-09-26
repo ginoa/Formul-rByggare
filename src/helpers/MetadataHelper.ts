@@ -21,10 +21,22 @@ export const questionnaireStatusOptions = [
         code: IQuestionnaireStatus.retired,
         display: 'Retired',
     },
-    {
-        code: IQuestionnaireStatus.unknown,
-        display: 'Unknown',
-    },
+    // {
+    //     code: IQuestionnaireStatus.unknown,
+    //     display: 'Unknown',
+    // },
+];
+
+
+export const legislation = [
+    { code: 'LOL', display: 'Lag om läkarvårdsersättning' },
+];
+
+export const categories = [
+    { code: 'care', display: 'Vård' },
+    { code: 'health', display: 'Hälsa' },
+    { code: 'legal', display: 'Lag' },
+    { code: 'sickness', display: 'Sjukdom' },
 ];
 
 export const presentationButtons = [
