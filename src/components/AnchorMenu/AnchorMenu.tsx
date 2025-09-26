@@ -150,13 +150,18 @@ const AnchorMenu = (props: AnchorMenuProps): JSX.Element => {
         <DndProvider backend={HTML5Backend}>
             <div className="questionnaire-overview">
                 <div className="questionnaire-overview__toolbox">
-                    <strong>{t('Components')}</strong>
+                    <h2>{t('Components')}</h2>
+
                     {createTypeComponent(IQuestionnaireItemType.group, t('Group'))}
-                    {createTypeComponent(IQuestionnaireItemType.string, t('Text answer'))}
                     {createTypeComponent(IQuestionnaireItemType.display, t('Information text'))}
+                    {/* {createTypeComponent(IQuestionnaireItemType.receiver, t('Recipient list'))}
+                    {createTypeComponent(IQuestionnaireItemType.receiverComponent, t('Recipient component'))} */}
+                    
+                    <br/>
+                    <strong>{t('Question types')}</strong>
+
+                    {createTypeComponent(IQuestionnaireItemType.string, t('Text answer'))}
                     {createTypeComponent(IQuestionnaireItemType.attachment, t('Attachment'))}
-                    {createTypeComponent(IQuestionnaireItemType.receiver, t('Recipient list'))}
-                    {createTypeComponent(IQuestionnaireItemType.receiverComponent, t('Recipient component'))}
                     {createTypeComponent(IQuestionnaireItemType.boolean, t('Confirmation'))}
                     {createTypeComponent(IQuestionnaireItemType.choice, t('Choice'))}
                     {createTypeComponent(IQuestionnaireItemType.date, t('Date'))}
