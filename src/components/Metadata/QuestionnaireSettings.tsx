@@ -67,7 +67,7 @@ const QuestionnaireSettings = (): JSX.Element => {
 
     return (
         <Accordion title={t('Questionnaire settings')}>
-            <FormField label={t('Helsenorge endpoint')}>
+            {/* <FormField label={t('Helsenorge endpoint')}>
                 <InputField
                     placeholder={t('For example Endpoint/35')}
                     defaultValue={
@@ -87,7 +87,7 @@ const QuestionnaireSettings = (): JSX.Element => {
                         }
                     }}
                 />
-            </FormField>
+            </FormField> */}
             <FormField label={t('Connect to print version (binary)')}>
                 <InputField
                     placeholder={t('For example Binary/35')}
@@ -107,7 +107,7 @@ const QuestionnaireSettings = (): JSX.Element => {
                     }}
                 />
             </FormField>
-            <MetaSecurityEditor />
+            {/* <MetaSecurityEditor /> */}
             <FormField label={t('Button bar display')}>
                 <RadioBtn
                     onChange={(newValue: string) => {
@@ -252,7 +252,7 @@ const QuestionnaireSettings = (): JSX.Element => {
                     label={t('Navigator')}
                 />
             </FormField>
-            <FormField
+            {/* <FormField
                 label={t('Workflow')}
                 sublabel={t(
                     'Should the form be included in a workflow at Helsenorge? This field is only used by Norsk helsenett.',
@@ -307,7 +307,7 @@ const QuestionnaireSettings = (): JSX.Element => {
                     value={hasUseContextWorkflowRequest() || false}
                     label={t('Request')}
                 />
-            </FormField>
+            </FormField> */}
         </Accordion>
     );
 };
