@@ -5,7 +5,7 @@ import { categories, isValidId, isValidTechnicalName, legislation, questionnaire
 import Accordion from '../Accordion/Accordion';
 import DatePicker from '../DatePicker/DatePicker';
 import FormField from '../FormField/FormField';
-import { IQuestionnaireMetadataType } from '../../types/IQuestionnaireMetadataType';
+import { IQuestionnaireMetadataType, IUseContextCode } from '../../types/IQuestionnaireMetadataType';
 import MarkdownEditor from '../MarkdownEditor/MarkdownEditor';
 import { ContactDetail, Extension, Meta, UsageContext } from '../../types/fhir';
 import { TreeContext } from '../../store/treeStore/treeStore';
@@ -170,7 +170,7 @@ const MetadataEditor = (): JSX.Element => {
                 </FormField>
                 <FormField label={t('Purpose')}>
                     <MarkdownEditor
-                        data={qMetadata.purpose || ''}
+                        data={qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.purpose).text || ''}
                         onBlur={(purpose: string) => updateMeta(IQuestionnaireMetadataType.useContextPurpose, purpose)}
                     />
                 </FormField>
@@ -183,7 +183,9 @@ const MetadataEditor = (): JSX.Element => {
                             }
                         }}
                         checked={
-                            qMetadata.useContextCategory && qMetadata.useContextCategory.length > 0 && qMetadata.useContextCategory[0].valueCodeableConcept && qMetadata.useContextCategory[0].valueCodeableConcept.coding ? qMetadata.useContextCategory[0].valueCodeableConcept.coding[0].code : 'care'
+                            qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.category) && qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.category).valueCodeableConcept 
+                                && qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.category).valueCodeableConcept.coding 
+                                ? qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.category).valueCodeableConcept.coding[0].code : 'care'
                         }
                         options={categories}
                         name={'categories-radio'}
@@ -198,7 +200,9 @@ const MetadataEditor = (): JSX.Element => {
                             }
                         }}
                         checked={
-                            qMetadata.useContextLegislation && qMetadata.useContextLegislation.length > 0 && qMetadata.useContextLegislation[0].valueCodeableConcept && qMetadata.useContextLegislation[0].valueCodeableConcept.coding ? qMetadata.useContextLegislation[0].valueCodeableConcept.coding[0].code : 'LOL'
+                            qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.legislation) && qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.legislation).valueCodeableConcept 
+                                && qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.legislation).valueCodeableConcept.coding 
+                                ? qMetadata.useContext.find((c: UsageContext) => c.code.code == IUseContextCode.legislation).valueCodeableConcept.coding[0].code : 'LOL'
                         }
                         options={legislation}
                         name={'legislation-radio'}

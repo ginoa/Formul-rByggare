@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, useEffect, useReducer } from 'react';
 import produce from 'immer';
 
-import { Extension, QuestionnaireItem, ValueSet } from '../../types/fhir';
+import { Coding, Extension, Period, QuestionnaireItem, UsageContext, ValueSet } from '../../types/fhir';
 import {
     ADD_ITEM_CODE_ACTION,
     ADD_QUESTIONNAIRE_LANGUAGE_ACTION,
@@ -56,7 +56,7 @@ import {
     UPDATE_SETTING_TRANSLATION_ACTION,
     UpdateSettingTranslationAction,
 } from './treeActions';
-import { IQuestionnaireMetadata, IQuestionnaireMetadataType } from '../../types/IQuestionnaireMetadataType';
+import { IQuestionnaireMetadata, IQuestionnaireMetadataType, IUseContextCode } from '../../types/IQuestionnaireMetadataType';
 import createUUID from '../../helpers/CreateUUID';
 import { IItemProperty } from '../../types/IQuestionnareItemType';
 import { INITIAL_LANGUAGE } from '../../helpers/LanguageHelper';
@@ -509,10 +509,7 @@ function updateSidebarTranslation(draft: TreeState, action: UpdateSidebarTransla
 function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value }: UpdateQuestionnaireMetadataAction) {
     console.log('propName', propName);
     console.log('value', value);
-    draft.qMetadata = {
-        ...draft.qMetadata,
-        [propName]: value,
-    };
+    
 
     if (IQuestionnaireMetadataType.title === propName) {
         const useContext = draft.qMetadata.useContext;
@@ -523,6 +520,68 @@ function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value
             }
         }
     }
+
+    if (IQuestionnaireMetadataType.useContextCategory === propName) {
+        let useContext: UsageContext = getUseContext(IUseContextCode.category);
+        let coding: Coding = { code:value as string };
+        useContext.valueCodeableConcept = { coding: [coding] };
+
+        return;
+    }
+
+    if (IQuestionnaireMetadataType.useContextLegislation === propName) {
+        let useContext: UsageContext = getUseContext(IUseContextCode.legislation);
+        let coding: Coding = { code:value as string };
+        useContext.valueCodeableConcept = { coding: [coding] };
+
+        return;
+    }
+
+    if (IQuestionnaireMetadataType.useContextPurpose === propName) {
+        let useContext: UsageContext = getUseContext(IUseContextCode.purpose);
+        useContext.valueCodeableConcept = { text: value as string };
+
+        return;
+    }
+
+    if (IQuestionnaireMetadataType.effectivePeriodEnd === propName) {
+        let effectivePeriod: Period | undefined = draft.qMetadata.effectivePeriod;
+        if (effectivePeriod == undefined) {
+            effectivePeriod = {};
+            draft.qMetadata.effectivePeriod = effectivePeriod;
+        }
+
+        effectivePeriod.end = value as string;
+    }
+
+    if (IQuestionnaireMetadataType.effectivePeriodStart === propName) {
+        let effectivePeriod: Period | undefined = draft.qMetadata.effectivePeriod;
+        if (effectivePeriod == undefined) {
+            effectivePeriod = {};
+            draft.qMetadata.effectivePeriod = effectivePeriod;
+        }
+
+        effectivePeriod.start = value as string;
+    }
+
+    function getUseContext(contextCode:string) {
+        let useContext: UsageContext | undefined = draft.qMetadata.useContext?.find(c => c.code.code == contextCode);
+        if (useContext == undefined) {
+            let coding: Coding = { code: contextCode };
+            useContext = { code: coding };
+            
+            if (draft.qMetadata.useContext == undefined) {
+                draft.qMetadata.useContext = [];
+            }
+            draft.qMetadata.useContext.push(useContext);
+        }
+        return useContext;
+    }
+
+    draft.qMetadata = {
+        ...draft.qMetadata,
+        [propName]: value,
+    };
 }
 
 function resetQuestionnaire(draft: TreeState, action: ResetQuestionnaireAction): void {
