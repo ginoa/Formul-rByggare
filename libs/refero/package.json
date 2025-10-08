@@ -1,0 +1,30 @@
+{
+  "name": "@helsenorge/refero",
+  "author": "helsenorge",
+  "version": "13.2.2",
+  "main": "./index.js",
+  "license": "MIT",
+  "peerDependencies": {
+    "@helsenorge/autosuggest": "^28.2.1",
+    "@helsenorge/core-utils": "^28.2.1",
+    "@helsenorge/date-time": "^28.2.1",
+    "@helsenorge/designsystem-react": "^4.2.2",
+    "@helsenorge/file-upload": "^28.2.1",
+    "@helsenorge/form": "^28.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.1.0",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2"
+  },
+  "dependencies": {
+    "@types/react-collapse": "^5.0.1",
+    "dompurify": "^2.0.8",
+    "fhirpath": "2.7.3",
+    "immer": "^9.0.6",
+    "isomorphic-fetch": "^3.0.0",
+    "marked": "^3.0.8",
+    "react-collapse": "^5.1.1",
+    "uuid": "^9.0.0"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"scoring.js","sourceRoot":"","sources":["../../src/constants/scoring.ts"],"names":[],"mappings":";;AAAA,kBAAe;IACb,gBAAgB,EAAE,kCAAkC;IACpD,IAAI,EAAE;QACJ,cAAc,EAAE,IAAI;QACpB,aAAa,EAAE,IAAI;QACnB,WAAW,EAAE,IAAI;KAClB;IACD,OAAO,EAAE,wBAAwB;IACjC,YAAY,EAAE,OAAO;CACtB,CAAC"}

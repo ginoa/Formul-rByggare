@@ -1,0 +1,1 @@
+{"version":3,"file":"defineFetch.js","sourceRoot":"","sources":["../../src/util/defineFetch.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,cAAc,CAAC,MAAM,EAAE,OAAO,EAAE;IACrC,KAAK,EAAE,IAAI,CAAC,EAAE,CAAC,GAAG,EAAE;QAClB,OAAO,OAAO,CAAC,OAAO,EAAE,CAAC;IAC3B,CAAC,CAAC;CACH,CAAC,CAAC"}

@@ -14,7 +14,12 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@libs/refero": ["libs/refero"],
+            "@libs/refero/*": ["libs/refero/*"]
+        }
     },
-    "include": ["src", "decs.d.ts"]
+    "include": ["src", "decs.d.ts", "libs"]
 }

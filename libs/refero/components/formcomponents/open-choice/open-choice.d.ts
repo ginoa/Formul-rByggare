@@ -1,0 +1,57 @@
+import * as React from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import { AutoSuggestProps } from '../../../types/autoSuggestProps';
+import { QuestionnaireItem, QuestionnaireResponseItemAnswer, Resource, Coding, QuestionnaireResponseItem, ValueSet } from '../../../types/fhir';
+import { ValidationProps } from '@helsenorge/form/components/form/validation';
+import { Options } from '@helsenorge/form/components/radio-group';
+import { NewValueAction } from '../../../actions/newValue';
+import { GlobalState } from '../../../reducers';
+import { Resources } from '../../../util/resources';
+import { Path } from '../../../util/refero-core';
+export interface Props {
+    item: QuestionnaireItem;
+    answer: QuestionnaireResponseItemAnswer | QuestionnaireResponseItemAnswer[];
+    path: Array<Path>;
+    id?: string;
+    pdf?: boolean;
+    promptLoginMessage?: () => void;
+    dispatch?: ThunkDispatch<GlobalState, void, NewValueAction>;
+    resources?: Resources;
+    containedResources?: Resource[];
+    renderDeleteButton: () => JSX.Element | undefined;
+    headerTag?: number;
+    responseItem: QuestionnaireResponseItem;
+    repeatButton: JSX.Element;
+    renderHelpButton: () => JSX.Element;
+    renderHelpElement: () => JSX.Element;
+    isHelpOpen?: boolean;
+    onAnswerChange: (newState: GlobalState, path: Array<Path>, item: QuestionnaireItem, answer: QuestionnaireResponseItemAnswer) => void;
+    onRenderMarkdown?: (item: QuestionnaireItem, markdown: string) => string;
+    fetchValueSet?: (searchString: string, item: QuestionnaireItem, successCallback: (valueSet: ValueSet) => void, errorCallback: (error: string) => void) => void;
+    autoSuggestProps?: AutoSuggestProps;
+}
+export declare class OpenChoice extends React.Component<Props & ValidationProps> {
+    getDataReceiverValue: (answer: Array<QuestionnaireResponseItemAnswer>) => (string | undefined)[];
+    getPDFValue: (item: QuestionnaireItem, answer: Array<QuestionnaireResponseItemAnswer> | QuestionnaireResponseItemAnswer) => string;
+    getOpenValue: (answer: Array<QuestionnaireResponseItemAnswer> | QuestionnaireResponseItemAnswer) => string | undefined;
+    getValue: (item: QuestionnaireItem, answer: Array<QuestionnaireResponseItemAnswer> | QuestionnaireResponseItemAnswer) => (string | undefined)[] | undefined;
+    handleStringChangeEvent: (event: React.FormEvent<{}>) => void;
+    handleStringChange: (value: string) => void;
+    getAnswerValueCoding: (code: string, systemArg?: string, displayArg?: string) => Coding;
+    resetInitialAnswer: (code: string) => void;
+    handleCheckboxChange: (code?: string) => void;
+    clearCodingAnswer: (coding: Coding) => void;
+    handleChange: (code?: string, systemArg?: string, displayArg?: string) => void;
+    interceptHandler: (coding: Coding, type: string | undefined) => void;
+    singleValueHandler: (coding: Coding) => void;
+    multiValueHandler: (coding: Coding) => void;
+    renderTextField(): JSX.Element;
+    renderCheckbox: (options: Array<Options> | undefined) => JSX.Element;
+    renderDropdown: (options: Array<Options> | undefined) => JSX.Element;
+    renderRadio: (options: Array<Options> | undefined) => JSX.Element;
+    renderAutosuggest: () => JSX.Element;
+    shouldComponentUpdate(nextProps: Props): boolean;
+    render(): JSX.Element | null;
+}
+declare const connectedStringComponent: import("react-redux").ComponentClass<import("react-redux").Omit<Props & ValidationProps & import("../../with-common-functions").Props, keyof import("../../with-common-functions").Props> & import("../../with-common-functions").Props>;
+export default connectedStringComponent;

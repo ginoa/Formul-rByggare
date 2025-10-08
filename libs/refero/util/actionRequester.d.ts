@@ -1,0 +1,53 @@
+import { Questionnaire, QuestionnaireResponse, Coding, Quantity } from '../types/fhir';
+import { NewValueAction } from '../actions/newValue';
+export interface IActionRequester {
+    addIntegerAnswer(linkId: string, value: number, index?: number): void;
+    addDecimalAnswer(linkId: string, value: number, index?: number): void;
+    addChoiceAnswer(linkId: string, value: Coding, index?: number): void;
+    addOpenChoiceAnswer(linkId: string, value: Coding | string, index?: number): void;
+    addBooleanAnswer(linkId: string, value: boolean, index?: number): void;
+    addDateAnswer(linkId: string, value: string, index?: number): void;
+    addTimeAnswer(linkId: string, value: string, index?: number): void;
+    addDateTimeAnswer(linkId: string, value: string, index?: number): void;
+    addQuantityAnswer(linkId: string, value: Quantity, index?: number): void;
+    addStringAnswer(linkId: string, value: string, index?: number): void;
+    clearIntegerAnswer(linkId: string, index?: number): void;
+    clearDecimalAnswer(linkId: string, index?: number): void;
+    clearBooleanAnswer(linkId: string, index?: number): void;
+    clearDateAnswer(linkId: string, index?: number): void;
+    clearTimeAnswer(linkId: string, index?: number): void;
+    clearDateTimeAnswer(linkId: string, index?: number): void;
+    clearQuantityAnswer(linkId: string, index?: number): void;
+    clearStringAnswer(linkId: string, index?: number): void;
+    removeChoiceAnswer(linkId: string, value: Coding, index?: number): void;
+    removeOpenChoiceAnswer(linkId: string, value: Coding | string, index?: number): void;
+}
+export declare class ActionRequester implements IActionRequester {
+    private actions;
+    private questionnaire;
+    private questionnaireResponse;
+    constructor(questionnaire: Questionnaire, questionnaireResponse: QuestionnaireResponse);
+    addIntegerAnswer(linkId: string, value: number, index?: number): void;
+    clearIntegerAnswer(linkId: string, index?: number): void;
+    addDecimalAnswer(linkId: string, value: number, index?: number): void;
+    clearDecimalAnswer(linkId: string, index?: number): void;
+    addChoiceAnswer(linkId: string, value: Coding, index?: number): void;
+    removeChoiceAnswer(linkId: string, value: Coding, index?: number): void;
+    addOpenChoiceAnswer(linkId: string, value: Coding | string, index?: number): void;
+    removeOpenChoiceAnswer(linkId: string, value: Coding | string, index?: number): void;
+    addBooleanAnswer(linkId: string, value: boolean, index?: number): void;
+    clearBooleanAnswer(linkId: string, index?: number): void;
+    addDateAnswer(linkId: string, value: string, index?: number): void;
+    clearDateAnswer(linkId: string, index?: number): void;
+    addTimeAnswer(linkId: string, value: string, index?: number): void;
+    clearTimeAnswer(linkId: string, index?: number): void;
+    addDateTimeAnswer(linkId: string, value: string, index?: number): void;
+    clearDateTimeAnswer(linkId: string, index?: number): void;
+    addQuantityAnswer(linkId: string, value: Quantity, index?: number): void;
+    clearQuantityAnswer(linkId: string, index?: number): void;
+    addStringAnswer(linkId: string, value: string, index?: number): void;
+    clearStringAnswer(linkId: string, index?: number): void;
+    getActions(): Array<NewValueAction>;
+    private getItemAndPath;
+    private isCheckbox;
+}

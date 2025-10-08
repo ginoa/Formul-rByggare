@@ -8,16 +8,16 @@ import { emptyPropertyReplacer } from '../../helpers/emptyPropertyReplacer';
 import { generateQuestionnaireForPreview } from '../../helpers/generateQuestionnaire';
 import { getLanguagesInUse, INITIAL_LANGUAGE } from '../../helpers/LanguageHelper';
 import { getResources } from '../../locales/referoResources';
-import rootReducer from '@helsenorge/refero/reducers';
+import rootReducer from '@libs/refero/reducers';
 import { TreeState } from '../../store/treeStore/treeStore';
 
-import { ReferoContainer } from '@helsenorge/refero/components';
+import { ReferoContainer } from '@libs/refero/components';
 import FormFillerSidebar from './FormFillerSidebar';
 import Button from '@helsenorge/designsystem-react/components/Button';
 import IconBtn from '../IconBtn/IconBtn';
 import Select from '../Select/Select';
 
-import { QuestionnaireResponse } from '@helsenorge/refero/types/fhir';
+import type { QuestionnaireResponse } from '@libs/refero/types/fhir';
 import InputField from '../InputField/inputField';
 
 type Props = {
@@ -59,9 +59,9 @@ const FormFillerPreview = ({ showFormFiller, language, state }: Props): JSX.Elem
                         <IconBtn type="x" title={t('Close')} onClick={showFormFiller} />
                         <h1>{t('Preview')}</h1>
                         <div className="pull-right">
-                            <InputField defaultValue={t('Kalle Karlsson')}/>
+                            <InputField defaultValue={t('Kalle Karlsson')} />
 
-                            <InputField defaultValue={t('Läkare Olsson')}/>
+                            <InputField defaultValue={t('Läkare Olsson')} />
                         </div>
                     </div>
 

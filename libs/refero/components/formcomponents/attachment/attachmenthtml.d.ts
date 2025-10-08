@@ -1,0 +1,33 @@
+import * as React from 'react';
+import { QuestionnaireItem } from '../../../types/fhir';
+import { TextMessage } from '../../../types/text-message';
+import Dropzone from '@helsenorge/file-upload/components/dropzone';
+import { UploadedFile } from '@helsenorge/file-upload/components/dropzone';
+import { ValidationProps } from '@helsenorge/form/components/form/validation';
+import { Resources } from '../../../util/resources';
+interface Props {
+    onUpload: (files: Array<File>, cb: (success: boolean, errormessage: TextMessage | null, uploadedFile?: UploadedFile) => void) => void;
+    onDelete: (fileId: string, cb: (success: boolean, errormessage: TextMessage | null) => void) => void;
+    onOpen?: (fileId: string) => void;
+    uploadButtonText: string;
+    label: string | JSX.Element;
+    subLabel?: string | JSX.Element;
+    id: string;
+    attachmentErrorMessage?: string;
+    getComponentToValidate?: (el: Dropzone) => void;
+    resources?: Resources;
+    isRequired?: boolean;
+    multiple?: boolean;
+    errorText?: string;
+    uploadedFiles: UploadedFile[] | undefined;
+    onRequestAttachmentLink?: (file: string) => string;
+    maxFiles?: number;
+    minFiles?: number;
+    item: QuestionnaireItem;
+    attachmentMaxFileSize?: number;
+    attachmentValidTypes?: Array<string>;
+    helpButton?: JSX.Element;
+    helpElement?: JSX.Element;
+}
+declare const attachmentHtml: React.SFC<Props & ValidationProps>;
+export default attachmentHtml;

@@ -14,7 +14,7 @@ FROM node:14-bullseye-slim as build
     # Set the working directory to /src
     WORKDIR /src
 
-    RUN NODE_OPTIONS="--max-old-space-size=8192"
+    ENV NODE_OPTIONS="--max-old-space-size=8192"
 
 
     # Copy the package.json and package-lock.json files to the container
