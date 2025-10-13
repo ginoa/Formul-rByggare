@@ -56,7 +56,11 @@ import {
     UPDATE_SETTING_TRANSLATION_ACTION,
     UpdateSettingTranslationAction,
 } from './treeActions';
-import { IQuestionnaireMetadata, IQuestionnaireMetadataType, IUseContextCode } from '../../types/IQuestionnaireMetadataType';
+import {
+    IQuestionnaireMetadata,
+    IQuestionnaireMetadataType,
+    IUseContextCode,
+} from '../../types/IQuestionnaireMetadataType';
 import createUUID from '../../helpers/CreateUUID';
 import { IItemProperty } from '../../types/IQuestionnareItemType';
 import { INITIAL_LANGUAGE } from '../../helpers/LanguageHelper';
@@ -195,18 +199,24 @@ const initialState: TreeState = {
         language: INITIAL_LANGUAGE.code,
         name: '',
         status: 'draft',
-        publisher: 'EHM',
+        publisher: '',
+        effectivePeriod: undefined,
         meta: {
             profile: ['http://electronichealth.se/fhir/smc/StructureDefinition/SMCQuestionnaire'],
             tag: [
                 {
-                    "system": "urn:ietf:bcp:47",
-                    "code": "sv-SE",
-                    "display": "Svenska"
-                }
-            ]
+                    system: 'urn:ietf:bcp:47',
+                    code: 'sv-SE',
+                    display: 'Svenska',
+                },
+            ],
         },
-        useContext: [],
+        useContext: [
+            {
+                code: { code: IUseContextCode.category },
+                valueCodeableConcept: { coding: [{ code: 'care' }] },
+            },
+        ],
         contact: [
             {
                 name: 'https://www.ehalsomyndigheten.se',
@@ -509,7 +519,6 @@ function updateSidebarTranslation(draft: TreeState, action: UpdateSidebarTransla
 function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value }: UpdateQuestionnaireMetadataAction) {
     console.log('propName', propName);
     console.log('value', value);
-    
 
     if (IQuestionnaireMetadataType.title === propName) {
         const useContext = draft.qMetadata.useContext;
@@ -522,23 +531,22 @@ function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value
     }
 
     if (IQuestionnaireMetadataType.useContextCategory === propName) {
-        let useContext: UsageContext = getUseContext(IUseContextCode.category);
-        let coding: Coding = { code:value as string };
+        const useContext: UsageContext = getUseContext(IUseContextCode.category);
+        const coding: Coding = { code: value as string };
         useContext.valueCodeableConcept = { coding: [coding] };
 
         return;
     }
 
     if (IQuestionnaireMetadataType.useContextLegislation === propName) {
-        let useContext: UsageContext = getUseContext(IUseContextCode.legislation);
-        let coding: Coding = { code:value as string };
-        useContext.valueCodeableConcept = { coding: [coding] };
+        const useContext: UsageContext = getUseContext(IUseContextCode.legislation);
+        useContext.valueCodeableConcept = { text: value as string };
 
         return;
     }
 
     if (IQuestionnaireMetadataType.useContextPurpose === propName) {
-        let useContext: UsageContext = getUseContext(IUseContextCode.purpose);
+        const useContext: UsageContext = getUseContext(IUseContextCode.purpose);
         useContext.valueCodeableConcept = { text: value as string };
 
         return;
@@ -552,6 +560,7 @@ function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value
         }
 
         effectivePeriod.end = value as string;
+        return;
     }
 
     if (IQuestionnaireMetadataType.effectivePeriodStart === propName) {
@@ -562,14 +571,15 @@ function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value
         }
 
         effectivePeriod.start = value as string;
+        return;
     }
 
-    function getUseContext(contextCode:string) {
-        let useContext: UsageContext | undefined = draft.qMetadata.useContext?.find(c => c.code.code == contextCode);
+    function getUseContext(contextCode: string) {
+        let useContext: UsageContext | undefined = draft.qMetadata.useContext?.find((c) => c.code.code == contextCode);
         if (useContext == undefined) {
-            let coding: Coding = { code: contextCode };
+            const coding: Coding = { code: contextCode };
             useContext = { code: coding };
-            
+
             if (draft.qMetadata.useContext == undefined) {
                 draft.qMetadata.useContext = [];
             }
