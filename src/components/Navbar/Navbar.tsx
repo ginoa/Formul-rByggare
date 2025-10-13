@@ -12,6 +12,7 @@ import { saveAction } from '../../store/treeStore/treeActions';
 import { validateOrphanedElements, validateTranslations, ValidationErrors } from '../../helpers/orphanValidation';
 import { ValidationErrorsModal } from '../ValidationErrorsModal/validationErrorsModal';
 import { useTranslation } from 'react-i18next';
+import { useFormBuilder } from '../../store/envStore/envStore';
 
 type Props = {
     showFormFiller: () => void;
@@ -43,6 +44,7 @@ const Navbar = ({
     const [showValidationErrors, setShowValidationErrors] = useState<boolean>(false);
     const navBarRef = useRef<HTMLDivElement>(null);
     const fileExtension = 'json';
+    const { setIsShowFormBuilder } = useFormBuilder();
 
     const hideMenu = () => {
         setSelectedMenuItem(MenuItem.none);
@@ -111,6 +113,10 @@ const Navbar = ({
     return (
         <>
             <header ref={navBarRef}>
+                <div className="pull-left">
+                    <Btn title={t('Home')} onClick={() => setIsShowFormBuilder(false)} />
+                </div>
+
                 <div className="form-title">
                     <h1>{getFileName()}</h1>
                 </div>

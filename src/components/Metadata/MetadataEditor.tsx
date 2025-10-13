@@ -191,21 +191,13 @@ const MetadataEditor = (): JSX.Element => {
                 </FormField>
 
                 <FormField label={t('Category')}>
-                    <RadioBtn
-                        onChange={(newValue: string) => {
-                            if (newValue) {
-                                updateMeta(IQuestionnaireMetadataType.useContextCategory, newValue);
-                            }
-                        }}
-                        checked={
-                            qMetadata?.useContext?.find((c) => c?.code?.code == IUseContextCode.category)
-                                ?.valueCodeableConcept?.coding?.length
-                                ? qMetadata?.useContext?.find((c) => c?.code?.code == IUseContextCode.category)
-                                      ?.valueCodeableConcept?.coding?.[0]?.code
-                                : 'care'
+                    <input
+                        defaultValue={
+                            qMetadata?.useContext?.find((c) => c.code?.code == IUseContextCode.category)
+                                ?.valueCodeableConcept?.text || ''
                         }
-                        options={categories}
-                        name={'categories-radio'}
+                        placeholder={t('Category')}
+                        onBlur={(e) => updateMeta(IQuestionnaireMetadataType.useContextCategory, e.target.value || '')}
                     />
                 </FormField>
 

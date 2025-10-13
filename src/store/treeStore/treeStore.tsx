@@ -211,12 +211,7 @@ const initialState: TreeState = {
                 },
             ],
         },
-        useContext: [
-            {
-                code: { code: IUseContextCode.category },
-                valueCodeableConcept: { coding: [{ code: 'care' }] },
-            },
-        ],
+        useContext: [],
         contact: [
             {
                 name: 'https://www.ehalsomyndigheten.se',
@@ -532,8 +527,7 @@ function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value
 
     if (IQuestionnaireMetadataType.useContextCategory === propName) {
         const useContext: UsageContext = getUseContext(IUseContextCode.category);
-        const coding: Coding = { code: value as string };
-        useContext.valueCodeableConcept = { coding: [coding] };
+        useContext.valueCodeableConcept = { text: value as string };
 
         return;
     }
