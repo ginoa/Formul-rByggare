@@ -20,7 +20,7 @@ const FrontPage = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false);
     // const [isFormBuilderShown, setIsFormBuilderShown] = useState<boolean>(false);
     const uploadRef = useRef<HTMLInputElement>(null);
-    const { setIsShowFormBuilder, isShowFormBuilder } = useFormBuilder();
+    const { setIsShowFormBuilder, isShowFormBuilder, hasShownFormBuilder } = useFormBuilder();
 
     useEffect(() => {
         getStoredQuestionnaire();
@@ -158,6 +158,14 @@ const FrontPage = (): JSX.Element => {
                             accept="application/JSON"
                             style={{ display: 'none' }}
                         />
+                        {hasShownFormBuilder && (
+                            <Btn
+                                onClick={() => setIsShowFormBuilder(true)}
+                                title={t('Open started form')}
+                                variant="primary"
+                            />
+                        )}
+                        {` `}
                         <Btn
                             onClick={initializeEmptyQuestionnaire}
                             title={t('New empty questionnaire')}
