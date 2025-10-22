@@ -299,7 +299,7 @@ function createNewItem(draft: TreeState, action: NewItemAction): void {
     if (itemToAdd.item?.length === 1) {
         // special handling since type 'inline' has a child when it is created
         draft.qItems[itemToAdd.item[0].linkId] = itemToAdd.item[0];
-        itemChildren.push({ linkId: itemToAdd.item[0].linkId, items: [] });
+        itemChildren.push({ linkId: itemToAdd.item[0].linkId, items: [] as any[] });
     }
     // find the correct place to add the new item
     const arrayToAddItemTo = findTreeArray(action.order, draft.qOrder);

@@ -1,7 +1,7 @@
 import React from 'react';
-import { getSidebarSections } from '@libs/refero/util/extension';
+import { getSidebarSections } from '../../libs/refero/util/extension';
 import { Questionnaire } from '../types/fhir';
-import { Questionnaire as QuestionnaireRefero } from '@libs/refero/types/fhir';
+import { Questionnaire as QuestionnaireRefero } from '../../libs/refero/types/fhir';
 
 export const generateSectionContent = (header: string, content: string[]): JSX.Element | null => {
     return content.length > 0 ? (

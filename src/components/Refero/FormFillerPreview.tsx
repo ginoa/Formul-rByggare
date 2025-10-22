@@ -8,17 +8,18 @@ import { emptyPropertyReplacer } from '../../helpers/emptyPropertyReplacer';
 import { generateQuestionnaireForPreview } from '../../helpers/generateQuestionnaire';
 import { getLanguagesInUse, INITIAL_LANGUAGE } from '../../helpers/LanguageHelper';
 import { getResources } from '../../locales/referoResources';
-import rootReducer from '@libs/refero/reducers';
+import rootReducer from '../../../libs/refero/reducers/index.js';
 import { TreeState } from '../../store/treeStore/treeStore';
 
-import { ReferoContainer } from '@libs/refero/components';
 import FormFillerSidebar from './FormFillerSidebar';
 import Button from '@helsenorge/designsystem-react/components/Button';
 import IconBtn from '../IconBtn/IconBtn';
 import Select from '../Select/Select';
 
-import type { QuestionnaireResponse } from '@libs/refero/types/fhir';
+import type { QuestionnaireResponse } from '../../../libs/refero/types/fhir';
 import InputField from '../InputField/inputField';
+
+import { ReferoContainer } from '../../libs-refero';
 
 type Props = {
     showFormFiller: () => void;

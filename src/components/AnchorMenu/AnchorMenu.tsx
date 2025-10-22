@@ -156,8 +156,8 @@ const AnchorMenu = (props: AnchorMenuProps): JSX.Element => {
                     {createTypeComponent(IQuestionnaireItemType.display, t('Information text'))}
                     {/* {createTypeComponent(IQuestionnaireItemType.receiver, t('Recipient list'))}
                     {createTypeComponent(IQuestionnaireItemType.receiverComponent, t('Recipient component'))} */}
-                    
-                    <br/>
+
+                    <br />
                     <strong>{t('Question types')}</strong>
 
                     {createTypeComponent(IQuestionnaireItemType.string, t('Text answer'))}

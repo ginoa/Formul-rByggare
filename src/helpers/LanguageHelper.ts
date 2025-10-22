@@ -14,7 +14,7 @@ export const INITIAL_LANGUAGE: Language = { code: 'sv-SE', display: 'Svenska', l
 
 export const supportedLanguages: Language[] = [
     INITIAL_LANGUAGE,
-    { code: 'nb-NO', display: 'Norska (Bokmål)', localDisplay: 'Bokmål'},
+    { code: 'nb-NO', display: 'Norska (Bokmål)', localDisplay: 'Bokmål' },
     { code: 'nn-NO', display: 'Norska (Nynorsk)', localDisplay: 'Nynorsk' },
     { code: 'se-NO', display: 'Samiska', localDisplay: 'Davvisámegillii' },
     { code: 'en-GB', display: 'Engelska', localDisplay: 'English' },

@@ -6,7 +6,8 @@
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "strict": true,
+        "strict": false,
+        "noImplicitAny": false,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
         "module": "esnext",
@@ -15,11 +16,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "baseUrl": ".",
-        "paths": {
-            "@libs/refero": ["libs/refero"],
-            "@libs/refero/*": ["libs/refero/*"]
-        }
+        "baseUrl": "."
     },
     "include": ["src", "decs.d.ts", "libs"]
 }

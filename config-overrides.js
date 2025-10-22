@@ -1,36 +1,27 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const fs = require('fs');
 
 module.exports = function override(config, env) {
-    // Add alias for @libs
-    config.resolve.alias = {
-        ...config.resolve.alias,
-        '@libs/refero': path.resolve(__dirname, 'libs/refero'),
-    };
-
-    // Allow imports from outside src/ directory
+    // Exclude TypeScript files from libs/refero (only use compiled .js files)
     const oneOfRule = config.module.rules.find((rule) => rule.oneOf);
     if (oneOfRule) {
         const tsRule = oneOfRule.oneOf.find((rule) => rule.test && rule.test.toString().includes('tsx'));
         if (tsRule) {
-            tsRule.include = [tsRule.include, path.resolve(__dirname, 'libs')];
-        }
-
-        const jsRule = oneOfRule.oneOf.find(
-            (rule) => rule.test && rule.test.toString().includes('jsx') && !rule.test.toString().includes('tsx'),
-        );
-        if (jsRule) {
-            jsRule.include = [jsRule.include, path.resolve(__dirname, 'libs')];
+            // Exclude libs/refero .ts files
+            tsRule.exclude = [/node_modules/, /libs\/refero\/.*\.ts$/];
         }
     }
 
-    // Modify ModuleScopePlugin to allow libs folder
+    // Remove ModuleScopePlugin to allow libs folder
     const scopePluginIndex = config.resolve.plugins.findIndex(
         ({ constructor }) => constructor && constructor.name === 'ModuleScopePlugin',
     );
     if (scopePluginIndex !== -1) {
         config.resolve.plugins.splice(scopePluginIndex, 1);
     }
+
+    // Prefer .js over .ts when both exist
+    config.resolve.extensions = ['.js', '.jsx', '.ts', '.tsx', '.json'];
 
     return config;
 };

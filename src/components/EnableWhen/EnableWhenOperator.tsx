@@ -60,8 +60,6 @@ const EnableWhenOperator = (props: EnableWhenOperatorProps): JSX.Element => {
                     } else if (props.ewIndex === ewIndex) {
                         item.operator = operator;
                         if (item.answerBoolean) {
-                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                            //@ts-expect-error
                             delete item.answerBoolean;
                         }
                     }
