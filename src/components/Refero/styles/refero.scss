@@ -59,6 +59,12 @@
 
     .page_refero__heading {
         display: inline-block;
+        font-size: 30px;
+    }
+
+    // enableWhen komponenter hamnar till höger
+    .ReactCollapse--content {
+        display: flex;
     }
 
     // Tilbakestill margin
