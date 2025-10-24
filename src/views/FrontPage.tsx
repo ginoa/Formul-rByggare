@@ -10,15 +10,17 @@ import FormBuilder from './FormBuilder';
 import Btn from '../components/Btn/Btn';
 import './FrontPage.css';
 import createUUID from '../helpers/CreateUUID';
-import StandardQuestionnaire from '../store/standardfrågor.json';
+import StandardQuestionnaire from '../store/standardfrågor2.json';
+import { useFormBuilder } from '../store/envStore/envStore';
 
 const FrontPage = (): JSX.Element => {
     const { t } = useTranslation();
     const { dispatch } = useContext(TreeContext);
     const [stateFromStorage, setStateFromStorage] = useState<TreeState>();
     const [isLoading, setIsLoading] = useState(false);
-    const [isFormBuilderShown, setIsFormBuilderShown] = useState<boolean>(false);
+    // const [isFormBuilderShown, setIsFormBuilderShown] = useState<boolean>(false);
     const uploadRef = useRef<HTMLInputElement>(null);
+    const { setIsShowFormBuilder, isShowFormBuilder, hasShownFormBuilder } = useFormBuilder();
 
     useEffect(() => {
         getStoredQuestionnaire();
@@ -35,7 +37,7 @@ const FrontPage = (): JSX.Element => {
             const importedState = mapToTreeState(questionnaireObj);
             dispatch(resetQuestionnaireAction(importedState));
             setIsLoading(false);
-            setIsFormBuilderShown(true);
+            setIsShowFormBuilder(true);
             // Reset file input
             if (uploadRef.current) {
                 uploadRef.current.value = '';
@@ -60,11 +62,11 @@ const FrontPage = (): JSX.Element => {
 
         // resets some metadata properties
         StandardQuestionnaireParsed.title = '';
-        StandardQuestionnaireParsed.name = 'NyFormulär';
+        StandardQuestionnaireParsed.name = 'NyttFormulär';
         StandardQuestionnaireParsed.description = '';
         const NewUUID = createUUID();
         StandardQuestionnaireParsed.id = NewUUID;
-        StandardQuestionnaireParsed.url = "Questionnaire/" + NewUUID;
+        StandardQuestionnaireParsed.url = 'Questionnaire/' + NewUUID;
 
         // maps questionnaire to Tree
         const importedState = mapToTreeState(StandardQuestionnaireParsed);
@@ -72,8 +74,21 @@ const FrontPage = (): JSX.Element => {
 
         // ends operation
         setIsLoading(false);
-        setIsFormBuilderShown(true);
-    }
+        setIsShowFormBuilder(true);
+    };
+
+    // method for initialising an empty form
+    const initializeEmptyQuestionnaire = () => {
+        setIsLoading(true);
+
+        // maps questionnaire to Tree
+        //const importedState = mapToTreeState(StandardQuestionnaireParsed);
+        dispatch(resetQuestionnaireAction(undefined));
+
+        // ends operation
+        setIsLoading(false);
+        setIsShowFormBuilder(true);
+    };
 
     const onDenyRestoreModal = (): void => {
         dispatch(resetQuestionnaireAction());
@@ -83,7 +98,7 @@ const FrontPage = (): JSX.Element => {
     const onConfirmRestoreModal = (): void => {
         dispatch(resetQuestionnaireAction(stateFromStorage));
         setStateFromStorage(undefined);
-        setIsFormBuilderShown(true);
+        setIsShowFormBuilder(true);
     };
 
     return (
@@ -122,7 +137,7 @@ const FrontPage = (): JSX.Element => {
                     <p className="center-text">{t('Loading questionnaire...')}</p>
                 </Modal>
             )}
-            {isFormBuilderShown ? (
+            {isShowFormBuilder ? (
                 <FormBuilder />
             ) : (
                 <>
@@ -143,10 +158,16 @@ const FrontPage = (): JSX.Element => {
                             accept="application/JSON"
                             style={{ display: 'none' }}
                         />
+                        {hasShownFormBuilder && (
+                            <Btn
+                                onClick={() => setIsShowFormBuilder(true)}
+                                title={t('Open started form')}
+                                variant="primary"
+                            />
+                        )}
+                        {` `}
                         <Btn
-                            onClick={() => {
-                                setIsFormBuilderShown(true);
-                            }}
+                            onClick={initializeEmptyQuestionnaire}
                             title={t('New empty questionnaire')}
                             variant="primary"
                         />

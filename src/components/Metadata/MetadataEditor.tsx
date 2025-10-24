@@ -1,11 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatISO, parseISO } from 'date-fns';
-import { categories, isValidId, isValidTechnicalName, legislation, questionnaireStatusOptions } from '../../helpers/MetadataHelper';
+import {
+    categories,
+    isValidId,
+    isValidTechnicalName,
+    legislation,
+    questionnaireStatusOptions,
+} from '../../helpers/MetadataHelper';
 import Accordion from '../Accordion/Accordion';
 import DatePicker from '../DatePicker/DatePicker';
 import FormField from '../FormField/FormField';
-import { IQuestionnaireMetadataType } from '../../types/IQuestionnaireMetadataType';
+import { IQuestionnaireMetadataType, IUseContextCode } from '../../types/IQuestionnaireMetadataType';
 import MarkdownEditor from '../MarkdownEditor/MarkdownEditor';
 import { ContactDetail, Extension, Meta, UsageContext } from '../../types/fhir';
 import { TreeContext } from '../../store/treeStore/treeStore';
@@ -26,6 +32,10 @@ const MetadataEditor = (): JSX.Element => {
     ) => {
         dispatch(updateQuestionnaireMetadataAction(propName, value));
     };
+
+    const purpose: string | undefined = qMetadata?.useContext?.find(
+        (c: UsageContext | undefined) => c?.code?.code == IUseContextCode.purpose,
+    )?.valueCodeableConcept?.text;
 
     return (
         <div id="metadata-editor">
@@ -109,12 +119,14 @@ const MetadataEditor = (): JSX.Element => {
 
                 <FormField label={t('Valid during')}>
                     <div className="horizontal equal">
-                                
                         <FormField label={t('From (date)')}>
-                            
                             <DatePicker
                                 type="date"
-                                selected={qMetadata.effectivePeriod && qMetadata.effectivePeriod.start ? parseISO(qMetadata.effectivePeriod?.start) : undefined}
+                                selected={
+                                    qMetadata.effectivePeriod && qMetadata.effectivePeriod.start
+                                        ? parseISO(qMetadata.effectivePeriod?.start)
+                                        : undefined
+                                }
                                 disabled={false}
                                 nowButton={true}
                                 callback={(date: Date) => {
@@ -124,17 +136,20 @@ const MetadataEditor = (): JSX.Element => {
                         </FormField>
 
                         <FormField label={t('Until (date)')}>
-
                             <DatePicker
                                 type="date"
-                                selected={qMetadata.effectivePeriod && qMetadata.effectivePeriod.end ? parseISO(qMetadata.effectivePeriod?.end) : undefined}
+                                selected={
+                                    qMetadata.effectivePeriod && qMetadata.effectivePeriod.end
+                                        ? parseISO(qMetadata.effectivePeriod?.end)
+                                        : undefined
+                                }
                                 disabled={false}
                                 nowButton={true}
                                 callback={(date: Date) => {
                                     updateMeta(IQuestionnaireMetadataType.effectivePeriodEnd, formatISO(date));
                                 }}
                             />
-                            </FormField>
+                        </FormField>
                     </div>
                 </FormField>
 
@@ -170,38 +185,32 @@ const MetadataEditor = (): JSX.Element => {
                 </FormField>
                 <FormField label={t('Purpose')}>
                     <MarkdownEditor
-                        data={qMetadata.purpose || ''}
+                        data={purpose || ''}
                         onBlur={(purpose: string) => updateMeta(IQuestionnaireMetadataType.useContextPurpose, purpose)}
                     />
                 </FormField>
-                
+
                 <FormField label={t('Category')}>
-                    <RadioBtn
-                        onChange={(newValue: string) => {
-                            if (newValue) {
-                                updateMeta(IQuestionnaireMetadataType.useContextCategory, newValue);
-                            }
-                        }}
-                        checked={
-                            qMetadata.useContextCategory && qMetadata.useContextCategory.length > 0 && qMetadata.useContextCategory[0].valueCodeableConcept && qMetadata.useContextCategory[0].valueCodeableConcept.coding ? qMetadata.useContextCategory[0].valueCodeableConcept.coding[0].code : 'care'
+                    <input
+                        defaultValue={
+                            qMetadata?.useContext?.find((c) => c.code?.code == IUseContextCode.category)
+                                ?.valueCodeableConcept?.text || ''
                         }
-                        options={categories}
-                        name={'categories-radio'}
+                        placeholder={t('Category')}
+                        onBlur={(e) => updateMeta(IQuestionnaireMetadataType.useContextCategory, e.target.value || '')}
                     />
                 </FormField>
 
                 <FormField label={t('Legislation')}>
-                    <RadioBtn
-                        onChange={(newValue: string) => {
-                            if (newValue) {
-                                updateMeta(IQuestionnaireMetadataType.useContextLegislation, newValue);
-                            }
-                        }}
-                        checked={
-                            qMetadata.useContextLegislation && qMetadata.useContextLegislation.length > 0 && qMetadata.useContextLegislation[0].valueCodeableConcept && qMetadata.useContextLegislation[0].valueCodeableConcept.coding ? qMetadata.useContextLegislation[0].valueCodeableConcept.coding[0].code : 'LOL'
+                    <input
+                        defaultValue={
+                            qMetadata?.useContext?.find((c) => c.code?.code == IUseContextCode.legislation)
+                                ?.valueCodeableConcept?.text || ''
                         }
-                        options={legislation}
-                        name={'legislation-radio'}
+                        placeholder={t('Legislation')}
+                        onBlur={(e) =>
+                            updateMeta(IQuestionnaireMetadataType.useContextLegislation, e.target.value || '')
+                        }
                     />
                 </FormField>
 

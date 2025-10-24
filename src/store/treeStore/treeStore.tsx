@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, useEffect, useReducer } from 'react';
 import produce from 'immer';
 
-import { Extension, QuestionnaireItem, ValueSet } from '../../types/fhir';
+import { Coding, Extension, Period, QuestionnaireItem, UsageContext, ValueSet } from '../../types/fhir';
 import {
     ADD_ITEM_CODE_ACTION,
     ADD_QUESTIONNAIRE_LANGUAGE_ACTION,
@@ -56,7 +56,11 @@ import {
     UPDATE_SETTING_TRANSLATION_ACTION,
     UpdateSettingTranslationAction,
 } from './treeActions';
-import { IQuestionnaireMetadata, IQuestionnaireMetadataType } from '../../types/IQuestionnaireMetadataType';
+import {
+    IQuestionnaireMetadata,
+    IQuestionnaireMetadataType,
+    IUseContextCode,
+} from '../../types/IQuestionnaireMetadataType';
 import createUUID from '../../helpers/CreateUUID';
 import { IItemProperty } from '../../types/IQuestionnareItemType';
 import { INITIAL_LANGUAGE } from '../../helpers/LanguageHelper';
@@ -195,16 +199,17 @@ const initialState: TreeState = {
         language: INITIAL_LANGUAGE.code,
         name: '',
         status: 'draft',
-        publisher: 'EHM',
+        publisher: '',
+        effectivePeriod: undefined,
         meta: {
             profile: ['http://electronichealth.se/fhir/smc/StructureDefinition/SMCQuestionnaire'],
             tag: [
                 {
-                    "system": "urn:ietf:bcp:47",
-                    "code": "sv-SE",
-                    "display": "Svenska"
-                }
-            ]
+                    system: 'urn:ietf:bcp:47',
+                    code: 'sv-SE',
+                    display: 'Svenska',
+                },
+            ],
         },
         useContext: [],
         contact: [
@@ -509,10 +514,6 @@ function updateSidebarTranslation(draft: TreeState, action: UpdateSidebarTransla
 function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value }: UpdateQuestionnaireMetadataAction) {
     console.log('propName', propName);
     console.log('value', value);
-    draft.qMetadata = {
-        ...draft.qMetadata,
-        [propName]: value,
-    };
 
     if (IQuestionnaireMetadataType.title === propName) {
         const useContext = draft.qMetadata.useContext;
@@ -523,6 +524,68 @@ function updateQuestionnaireMetadataProperty(draft: TreeState, { propName, value
             }
         }
     }
+
+    if (IQuestionnaireMetadataType.useContextCategory === propName) {
+        const useContext: UsageContext = getUseContext(IUseContextCode.category);
+        useContext.valueCodeableConcept = { text: value as string };
+
+        return;
+    }
+
+    if (IQuestionnaireMetadataType.useContextLegislation === propName) {
+        const useContext: UsageContext = getUseContext(IUseContextCode.legislation);
+        useContext.valueCodeableConcept = { text: value as string };
+
+        return;
+    }
+
+    if (IQuestionnaireMetadataType.useContextPurpose === propName) {
+        const useContext: UsageContext = getUseContext(IUseContextCode.purpose);
+        useContext.valueCodeableConcept = { text: value as string };
+
+        return;
+    }
+
+    if (IQuestionnaireMetadataType.effectivePeriodEnd === propName) {
+        let effectivePeriod: Period | undefined = draft.qMetadata.effectivePeriod;
+        if (effectivePeriod == undefined) {
+            effectivePeriod = {};
+            draft.qMetadata.effectivePeriod = effectivePeriod;
+        }
+
+        effectivePeriod.end = value as string;
+        return;
+    }
+
+    if (IQuestionnaireMetadataType.effectivePeriodStart === propName) {
+        let effectivePeriod: Period | undefined = draft.qMetadata.effectivePeriod;
+        if (effectivePeriod == undefined) {
+            effectivePeriod = {};
+            draft.qMetadata.effectivePeriod = effectivePeriod;
+        }
+
+        effectivePeriod.start = value as string;
+        return;
+    }
+
+    function getUseContext(contextCode: string) {
+        let useContext: UsageContext | undefined = draft.qMetadata.useContext?.find((c) => c.code.code == contextCode);
+        if (useContext == undefined) {
+            const coding: Coding = { code: contextCode };
+            useContext = { code: coding };
+
+            if (draft.qMetadata.useContext == undefined) {
+                draft.qMetadata.useContext = [];
+            }
+            draft.qMetadata.useContext.push(useContext);
+        }
+        return useContext;
+    }
+
+    draft.qMetadata = {
+        ...draft.qMetadata,
+        [propName]: value,
+    };
 }
 
 function resetQuestionnaire(draft: TreeState, action: ResetQuestionnaireAction): void {

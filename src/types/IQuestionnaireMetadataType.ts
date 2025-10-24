@@ -54,3 +54,8 @@ export enum IQuestionnaireStatus {
     //unknown = 'unknown',
 }
 
+export enum IUseContextCode {
+    category = 'category',
+    legislation = 'legislation',
+    purpose = 'purpose',
+}

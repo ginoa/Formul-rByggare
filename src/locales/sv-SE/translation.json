@@ -145,7 +145,7 @@
     "No": "Nej",
     "Questionnaire": "Formulärbyggare",
     "New empty questionnaire": "Nytt tomt formulär",
-    "New standard questionnaire": "Nytt standard formulär",
+    "New standard questionnaire": "Nytt standardformulär",
     "Upload questionnaire": "Ladda upp formulär",
     "Save": "Spara",
     "You are logged in as {0}": "Du är inloggat som {0}",
@@ -434,5 +434,7 @@
     "Question types": "Frågetyper",
     "From (date)": "Startdatum",
     "Until (date)": "Slutdatum",
-    "Picture": "Bild"
+    "Picture": "Bild",
+    "Home": "Start",
+    "Open started form": "Fortsätt på påbörjat formulär"
 }
